@@ -17,14 +17,16 @@ def cadastrar_doador():
         email = request.form.get("email")
         cep = request.form.get("cep")
         rua = request.form.get("rua", "")
+        numero = request.form.get("numero", "")
+        complemento = request.form.get("complemento", "")
         cidade = request.form.get("cidade", "")
         estado = request.form.get("estado", "")
 
         conn.execute(
             """INSERT INTO doadores 
-            (nome, email, cep, rua, cidade, estado) 
-            VALUES (?, ?, ?, ?, ?, ?)""",
-            (nome, email, cep, rua, cidade, estado)
+            (nome, email, cep, rua, numero, complemento, cidade, estado) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (nome, email, cep, rua, numero, complemento, cidade, estado)
         )
         conn.commit()
 
@@ -53,14 +55,16 @@ def editar_doador(id):
         email = request.form.get("email")
         cep = request.form.get("cep")
         rua = request.form.get("rua", "")
+        numero = request.form.get("numero", "")
+        complemento = request.form.get("complemento", "")
         cidade = request.form.get("cidade", "")
         estado = request.form.get("estado", "")
 
         conn.execute(
             """UPDATE doadores 
-            SET nome = ?, email = ?, cep = ?, rua = ?, cidade = ?, estado = ?
+            SET nome = ?, email = ?, cep = ?, rua = ?, numero = ?, complemento = ?, cidade = ?, estado = ?
             WHERE id = ?""",
-            (nome, email, cep, rua, cidade, estado, id)
+            (nome, email, cep, rua, numero, complemento, cidade, estado, id)
         )
         conn.commit()
         conn.close()

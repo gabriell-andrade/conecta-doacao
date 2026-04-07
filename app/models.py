@@ -16,6 +16,8 @@ def create_tables():
             email TEXT,
             cep TEXT,
             rua TEXT,
+            numero TEXT,
+            complemento TEXT,
             cidade TEXT,
             estado TEXT
         )

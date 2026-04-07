@@ -13,6 +13,8 @@
 
         <input type="text" id="cep" name="cep" placeholder="CEP"><br><br>
         <input type="text" id="rua" name="rua" placeholder="Rua"><br><br>
+        <input type="text" name="numero" placeholder="Número"><br><br>
+        <input type="text" name="complemento" placeholder="Complemento"><br><br>
         <input type="text" id="cidade" name="cidade" placeholder="Cidade"><br><br>
         <input type="text" id="estado" name="estado" placeholder="Estado"><br><br>
 
@@ -30,6 +32,8 @@
             <th>Email</th>
             <th>CEP</th>
             <th>Rua</th>
+            <th>Número</th>
+            <th>Complemento</th>
             <th>Cidade</th>
             <th>Estado</th>
             <th>Ações</th>
@@ -42,6 +46,8 @@
             <td>{{ d.email }}</td>
             <td>{{ d.cep }}</td>
             <td>{{ d.rua }}</td>
+            <td>{{ d.numero }}</td>
+            <td>{{ d.complemento }}</td>
             <td>{{ d.cidade }}</td>
             <td>{{ d.estado }}</td>
             <td>
