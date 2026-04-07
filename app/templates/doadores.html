@@ -12,9 +12,9 @@
         <input type="email" name="email" placeholder="Email"><br><br>
 
         <input type="text" id="cep" name="cep" placeholder="CEP"><br><br>
-        <input type="text" id="rua" placeholder="Rua"><br><br>
-        <input type="text" id="cidade" placeholder="Cidade"><br><br>
-        <input type="text" id="estado" placeholder="Estado"><br><br>
+        <input type="text" id="rua" name="rua" placeholder="Rua"><br><br>
+        <input type="text" id="cidade" name="cidade" placeholder="Cidade"><br><br>
+        <input type="text" id="estado" name="estado" placeholder="Estado"><br><br>
 
         <button type="submit">Cadastrar</button>
     </form>
@@ -29,6 +29,9 @@
             <th>Nome</th>
             <th>Email</th>
             <th>CEP</th>
+            <th>Rua</th>
+            <th>Cidade</th>
+            <th>Estado</th>
             <th>Ações</th>
         </tr>
 
@@ -38,6 +41,9 @@
             <td>{{ d.nome }}</td>
             <td>{{ d.email }}</td>
             <td>{{ d.cep }}</td>
+            <td>{{ d.rua }}</td>
+            <td>{{ d.cidade }}</td>
+            <td>{{ d.estado }}</td>
             <td>
                 <a href="/editar/{{ d.id }}">Editar</a> |
                 <a href="/excluir/{{ d.id }}">Excluir</a>

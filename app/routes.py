@@ -5,7 +5,7 @@ main = Blueprint('main', __name__)
 
 @main.route("/")
 def home():
-    return "Backend funcionando"
+    return "Backend funcionando 🚀"
 
 
 @main.route("/doadores", methods=["GET", "POST"])
@@ -13,13 +13,18 @@ def cadastrar_doador():
     conn = get_connection()
 
     if request.method == "POST":
-        nome = request.form["nome"]
-        email = request.form["email"]
-        cep = request.form["cep"]
+        nome = request.form.get("nome")
+        email = request.form.get("email")
+        cep = request.form.get("cep")
+        rua = request.form.get("rua", "")
+        cidade = request.form.get("cidade", "")
+        estado = request.form.get("estado", "")
 
         conn.execute(
-            "INSERT INTO doadores (nome, email, cep) VALUES (?, ?, ?)",
-            (nome, email, cep)
+            """INSERT INTO doadores 
+            (nome, email, cep, rua, cidade, estado) 
+            VALUES (?, ?, ?, ?, ?, ?)""",
+            (nome, email, cep, rua, cidade, estado)
         )
         conn.commit()
 
@@ -44,20 +49,27 @@ def editar_doador(id):
     conn = get_connection()
 
     if request.method == "POST":
-        nome = request.form["nome"]
-        email = request.form["email"]
-        cep = request.form["cep"]
+        nome = request.form.get("nome")
+        email = request.form.get("email")
+        cep = request.form.get("cep")
+        rua = request.form.get("rua", "")
+        cidade = request.form.get("cidade", "")
+        estado = request.form.get("estado", "")
 
         conn.execute(
-            "UPDATE doadores SET nome = ?, email = ?, cep = ? WHERE id = ?",
-            (nome, email, cep, id)
+            """UPDATE doadores 
+            SET nome = ?, email = ?, cep = ?, rua = ?, cidade = ?, estado = ?
+            WHERE id = ?""",
+            (nome, email, cep, rua, cidade, estado, id)
         )
         conn.commit()
         conn.close()
 
         return redirect("/doadores")
 
-    doador = conn.execute("SELECT * FROM doadores WHERE id = ?", (id,)).fetchone()
+    doador = conn.execute(
+        "SELECT * FROM doadores WHERE id = ?", (id,)
+    ).fetchone()
     conn.close()
 
     return render_template("editar.html", doador=doador)

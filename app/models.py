@@ -14,7 +14,10 @@ def create_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
             email TEXT,
-            cep TEXT
+            cep TEXT,
+            rua TEXT,
+            cidade TEXT,
+            estado TEXT
         )
     """)
     conn.commit()
