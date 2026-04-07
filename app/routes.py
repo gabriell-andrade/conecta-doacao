@@ -27,3 +27,37 @@ def cadastrar_doador():
     conn.close()
 
     return render_template("doadores.html", doadores=doadores)
+
+
+@main.route("/excluir/<int:id>")
+def excluir_doador(id):
+    conn = get_connection()
+    conn.execute("DELETE FROM doadores WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+
+    return redirect("/doadores")
+
+
+@main.route("/editar/<int:id>", methods=["GET", "POST"])
+def editar_doador(id):
+    conn = get_connection()
+
+    if request.method == "POST":
+        nome = request.form["nome"]
+        email = request.form["email"]
+        cep = request.form["cep"]
+
+        conn.execute(
+            "UPDATE doadores SET nome = ?, email = ?, cep = ? WHERE id = ?",
+            (nome, email, cep, id)
+        )
+        conn.commit()
+        conn.close()
+
+        return redirect("/doadores")
+
+    doador = conn.execute("SELECT * FROM doadores WHERE id = ?", (id,)).fetchone()
+    conn.close()
+
+    return render_template("editar.html", doador=doador)

@@ -25,6 +25,7 @@
             <th>Nome</th>
             <th>Email</th>
             <th>CEP</th>
+            <th>Ações</th>
         </tr>
 
         {% for d in doadores %}
@@ -33,6 +34,10 @@
             <td>{{ d.nome }}</td>
             <td>{{ d.email }}</td>
             <td>{{ d.cep }}</td>
+            <td>
+                <a href="/editar/{{ d.id }}">Editar</a> |
+                <a href="/excluir/{{ d.id }}">Excluir</a>
+            </td>
         </tr>
         {% endfor %}
     </table>

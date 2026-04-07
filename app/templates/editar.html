@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Doador</title>
+</head>
+<body>
+
+    <h1>Editar Doador</h1>
+
+    <form method="POST">
+        <input type="text" name="nome" value="{{ doador.nome }}" required><br><br>
+        <input type="email" name="email" value="{{ doador.email }}"><br><br>
+        <input type="text" name="cep" value="{{ doador.cep }}"><br><br>
+
+        <button type="submit">Salvar</button>
+    </form>
+
+</body>
+</html>
