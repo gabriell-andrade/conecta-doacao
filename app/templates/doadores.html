@@ -4,6 +4,7 @@
     <title>Cadastro de Doadores</title>
 </head>
 <body>
+
     <h1>Cadastrar Doador</h1>
 
     <form method="POST">
@@ -13,5 +14,28 @@
 
         <button type="submit">Cadastrar</button>
     </form>
+
+    <hr>
+
+    <h2>Lista de Doadores</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CEP</th>
+        </tr>
+
+        {% for d in doadores %}
+        <tr>
+            <td>{{ d.id }}</td>
+            <td>{{ d.nome }}</td>
+            <td>{{ d.email }}</td>
+            <td>{{ d.cep }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
 </body>
 </html>
