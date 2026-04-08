@@ -23,8 +23,12 @@
             <div class="collapse navbar-collapse" id="menuPrincipal">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Início</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/doadores"><i class="bi bi-person-plus"></i> Cadastrar Doação</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#lista-doadores"><i class="bi bi-table"></i> Lista de Doadores</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/doadores"><i class="bi bi-person-plus"></i> Nova Doação</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/perfil"><i class="bi bi-person-circle"></i> Meu Perfil</a></li>
+                    {% if session.tipo == "admin" %}
+                    <li class="nav-item"><a class="nav-link" href="/relatorio"><i class="bi bi-graph-up"></i> Relatório</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link text-danger" href="/logout"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
                 </ul>
             </div>
         </div>
@@ -47,22 +51,10 @@
                             <form method="POST" id="formDoador">
                                 <div class="row g-3">
 
-                                    <!-- NOME -->
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">Nome completo *</label>
-                                        <input type="text" name="nome" class="form-control" value="{{ session.nome }}" readonly>
-                                    </div>
-
-                                    <!-- EMAIL -->
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-semibold">E-mail</label>
-                                        <input type="email" name="email" class="form-control" value="{{ session.email }}" readonly>
-                                    </div>
-
                                     <!-- DESCRIÇÃO -->
                                     <div class="col-md-12">
                                         <label class="form-label fw-semibold">O que você vai doar? *</label>
-                                        <input type="text" name="descricao" class="form-control" placeholder="Ex: roupas, alimentos..." required>
+                                        <input type="text" name="descricao" class="form-control" placeholder="Ex: roupas, alimentos, fraldas..." required>
                                     </div>
 
                                     <div class="col-md-4">
@@ -85,7 +77,6 @@
                                         <input type="text" name="complemento" class="form-control" placeholder="Apto, Bloco...">
                                     </div>
 
-                                    <!-- BAIRRO (NOVO) -->
                                     <div class="col-md-3">
                                         <label class="form-label fw-semibold">Bairro</label>
                                         <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro">
@@ -127,8 +118,7 @@
                                         <th>ID</th>
                                         <th>Nome</th>
                                         <th>Email</th>
-                                        <th>CEP</th>
-                                        <th>Bairro</th>
+                                        <th>Descrição</th>
                                         <th>Cidade/UF</th>
                                         <th>Ações</th>
                                     </tr>
@@ -139,8 +129,7 @@
                                         <td>{{ d.id }}</td>
                                         <td class="fw-semibold">{{ d.nome }}</td>
                                         <td>{{ d.email or '-' }}</td>
-                                        <td>{{ d.cep or '-' }}</td>
-                                        <td>{{ d.bairro or '-' }}</td>
+                                        <td>{{ d.descricao or '-' }}</td>
                                         <td>{{ d.cidade }}/{{ d.estado }}</td>
                                         <td>
                                             <a href="/editar/{{ d.id }}" class="btn btn-sm btn-outline-primary me-1">
@@ -157,7 +146,7 @@
                         </div>
                         {% else %}
                         <div class="alert alert-info text-center">
-                            Nenhum doador cadastrado ainda.
+                            <i class="bi bi-info-circle"></i> Nenhuma doação cadastrada ainda.
                         </div>
                         {% endif %}
                     </div>
@@ -166,6 +155,14 @@
             </div>
         </div>
     </main>
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <footer class="rodape py-3">
+        <div class="container text-center">
+            <p class="mb-0 small">&copy; 2025 APAE Mogi das Cruzes - Sistema de Apoio a Doadores</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

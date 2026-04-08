@@ -1,4 +1,3 @@
-// Auto preenchimento de CEP via ViaCEP (somente na página de cadastro)
 document.addEventListener('DOMContentLoaded', function() {
     const campoCep = document.getElementById('cep');
 
@@ -11,17 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(resposta => resposta.json())
                     .then(dados => {
                         if (!dados.erro) {
-
                             const rua = document.getElementById('rua');
-                            const bairro = document.getElementById('bairro'); // ✅ NOVO
+                            const bairro = document.getElementById('bairro');
                             const cidade = document.getElementById('cidade');
                             const estado = document.getElementById('estado');
 
                             if (rua) rua.value = dados.logradouro || '';
-                            if (bairro) bairro.value = dados.bairro || ''; // ✅ NOVO
+                            if (bairro) bairro.value = dados.bairro || '';
                             if (cidade) cidade.value = dados.localidade || '';
                             if (estado) estado.value = dados.uf || '';
-
                         } else {
                             console.warn('CEP não encontrado');
                         }
@@ -31,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Máscara simples para CEP (opcional)
     if (campoCep) {
         campoCep.addEventListener('input', function(e) {
             let valor = e.target.value.replace(/\D/g, '');
@@ -42,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Animação suave para links internos
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', function(e) {
             const destino = document.querySelector(this.getAttribute('href'));
@@ -52,4 +47,45 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    const mainConteudo = document.querySelector('.main-conteudo');
+
+    if (navbarToggler && navbarCollapse && mainConteudo) {
+        function ajustarMargemConteudo() {
+            if (window.innerWidth < 992) {
+                if (navbarCollapse.classList.contains('show')) {
+                    const alturaMenu = navbarCollapse.scrollHeight;
+                    mainConteudo.style.marginTop = (75 + alturaMenu) + 'px';
+                } else {
+                    mainConteudo.style.marginTop = '75px';
+                }
+            } else {
+                mainConteudo.style.marginTop = '90px';
+            }
+        }
+
+        navbarToggler.addEventListener('click', function() {
+            setTimeout(ajustarMargemConteudo, 300);
+        });
+
+        navbarCollapse.addEventListener('hidden.bs.collapse', function() {
+            mainConteudo.style.marginTop = '75px';
+        });
+
+        navbarCollapse.addEventListener('shown.bs.collapse', function() {
+            ajustarMargemConteudo();
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 992) {
+                mainConteudo.style.marginTop = '90px';
+            } else {
+                if (!navbarCollapse.classList.contains('show')) {
+                    mainConteudo.style.marginTop = '75px';
+                }
+            }
+        });
+    }
 });
