@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relatório</title>
+</head>
+<body>
+
+<h1>Relatório de Doações por CEP</h1>
+
+<table border="1">
+    <tr>
+        <th>CEP</th>
+        <th>Total</th>
+    </tr>
+
+    {% for d in dados %}
+    <tr>
+        <td>{{ d.cep }}</td>
+        <td>{{ d.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

@@ -9,18 +9,34 @@ def get_connection():
 
 def create_tables():
     conn = get_connection()
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT,
+            email TEXT UNIQUE,
+            senha TEXT,
+            tipo TEXT
+        )
+    """)
+
     conn.execute("""
         CREATE TABLE IF NOT EXISTS doadores (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
+            usuario_id INTEGER,
+            nome TEXT,
             email TEXT,
             cep TEXT,
             rua TEXT,
             numero TEXT,
             complemento TEXT,
+            bairro TEXT,
             cidade TEXT,
-            estado TEXT
+            estado TEXT,
+            descricao TEXT,
+            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         )
     """)
+
     conn.commit()
     conn.close()
