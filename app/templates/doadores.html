@@ -1,80 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Cadastro de Doadores</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Cadastro de Doadores - APAE Mogi</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <h1>Cadastrar Doador</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="bi bi-house-heart fs-4 me-2"></i>
+                <span class="fw-bold">APAE Mogi das Cruzes</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Início</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/doadores"><i class="bi bi-person-plus"></i> Cadastrar Doação</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#lista-doadores"><i class="bi bi-table"></i> Lista de Doadores</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <form method="POST">
-        <input type="text" name="nome" placeholder="Nome" required><br><br>
-        <input type="email" name="email" placeholder="Email"><br><br>
+    <main class="main-conteudo">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    
+                    <!-- FORMULÁRIO DE CADASTRO -->
+                    <div class="card shadow-lg border-0 rounded-4 mb-5">
+                        <div class="card-header bg-transparent border-0 pt-4">
+                            <h2 class="text-center fw-bold"><i class="bi bi-send-heart me-2 text-primary"></i> Cadastrar Nova Doação</h2>
+                            <p class="text-center text-muted">Preencha os dados abaixo. Os campos com * são obrigatórios.</p>
+                        </div>
+                        <div class="card-body p-4">
+                            <form method="POST" id="formDoador">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Nome completo *</label>
+                                        <input type="text" name="nome" class="form-control" placeholder="Ex: João da Silva" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">E-mail</label>
+                                        <input type="email" name="email" class="form-control" placeholder="seuemail@exemplo.com">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-semibold">CEP</label>
+                                        <input type="text" id="cep" name="cep" class="form-control" placeholder="00000-000" maxlength="9">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Rua</label>
+                                        <input type="text" id="rua" name="rua" class="form-control" placeholder="Rua ...">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label fw-semibold">Número</label>
+                                        <input type="text" name="numero" class="form-control" placeholder="123">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Complemento</label>
+                                        <input type="text" name="complemento" class="form-control" placeholder="Apto, Bloco...">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-semibold">Cidade</label>
+                                        <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Cidade">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-semibold">Estado</label>
+                                        <input type="text" id="estado" name="estado" class="form-control" placeholder="UF">
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-doador btn-lg px-5">
+                                        <i class="bi bi-check-circle"></i> Registrar Doação
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-        <input type="text" id="cep" name="cep" placeholder="CEP"><br><br>
-        <input type="text" id="rua" name="rua" placeholder="Rua"><br><br>
-        <input type="text" name="numero" placeholder="Número"><br><br>
-        <input type="text" name="complemento" placeholder="Complemento"><br><br>
-        <input type="text" id="cidade" name="cidade" placeholder="Cidade"><br><br>
-        <input type="text" id="estado" name="estado" placeholder="Estado"><br><br>
+                    <!-- LISTA DE DOADORES CADASTRADOS -->
+                    <div id="lista-doadores">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                            <h3 class="fw-bold"><i class="bi bi-table me-2"></i> Doadores Registrados</h3>
+                            <span class="badge bg-secondary p-2">{{ doadores|length }} doador(es)</span>
+                        </div>
+                        
+                        {% if doadores %}
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th><th>Nome</th><th>Email</th><th>CEP</th><th>Cidade/UF</th><th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for d in doadores %}
+                                    <tr>
+                                        <td>{{ d.id }}</td>
+                                        <td class="fw-semibold">{{ d.nome }}</td>
+                                        <td>{{ d.email or '-' }}</td>
+                                        <td>{{ d.cep or '-' }}</td>
+                                        <td>{{ d.cidade }}/{{ d.estado }}</td>
+                                        <td>
+                                            <a href="/editar/{{ d.id }}" class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="bi bi-pencil"></i> Editar
+                                            </a>
+                                            <a href="/excluir/{{ d.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Excluir este registro?')">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-info-circle"></i> Nenhum doador cadastrado ainda. Seja o primeiro!
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-        <button type="submit">Cadastrar</button>
-    </form>
+    <footer class="rodape mt-5 py-3">
+        <div class="container text-center">
+            <p class="mb-0 small">&copy; 2025 APAE Mogi das Cruzes - Sistema de Apoio a Doadores</p>
+        </div>
+    </footer>
 
-    <hr>
-
-    <h2>Lista de Doadores</h2>
-
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>CEP</th>
-            <th>Rua</th>
-            <th>Número</th>
-            <th>Complemento</th>
-            <th>Cidade</th>
-            <th>Estado</th>
-            <th>Ações</th>
-        </tr>
-
-        {% for d in doadores %}
-        <tr>
-            <td>{{ d.id }}</td>
-            <td>{{ d.nome }}</td>
-            <td>{{ d.email }}</td>
-            <td>{{ d.cep }}</td>
-            <td>{{ d.rua }}</td>
-            <td>{{ d.numero }}</td>
-            <td>{{ d.complemento }}</td>
-            <td>{{ d.cidade }}</td>
-            <td>{{ d.estado }}</td>
-            <td>
-                <a href="/editar/{{ d.id }}">Editar</a> |
-                <a href="/excluir/{{ d.id }}">Excluir</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <script>
-        document.getElementById("cep").addEventListener("blur", function () {
-            let cep = this.value.replace(/\D/g, "");
-
-            if (cep.length === 8) {
-                fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (!data.erro) {
-                            document.getElementById("rua").value = data.logradouro;
-                            document.getElementById("cidade").value = data.localidade;
-                            document.getElementById("estado").value = data.uf;
-                        }
-                    });
-            }
-        });
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

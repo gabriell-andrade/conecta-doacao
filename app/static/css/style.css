@@ -1,0 +1,139 @@
+/* RESET E CONFIGURAÇÕES GLOBAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, 'Roboto', sans-serif;
+    background-color: #fef9f0;
+    color: #2d2a24;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* MENU FIXO */
+.navbar {
+    background: linear-gradient(135deg, #0b3b3f 0%, #1b5e5a 100%);
+    padding: 0.8rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: -0.3px;
+}
+
+.nav-link {
+    font-weight: 500;
+    margin: 0 0.3rem;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 30px;
+}
+
+/* Compensar altura do menu fixo */
+.main-conteudo {
+    margin-top: 90px;
+    padding-bottom: 2rem;
+    flex: 1;
+}
+
+/* Botão principal (doar) */
+.btn-doador {
+    background: linear-gradient(95deg, #e67e22, #f39c12);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-radius: 50px;
+}
+
+.btn-doador:hover {
+    transform: scale(1.02);
+    background: linear-gradient(95deg, #d35400, #e67e22);
+    color: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Cards da página inicial */
+.card-info {
+    background: white;
+    transition: transform 0.25s, box-shadow 0.25s;
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card-info:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+}
+
+.icone-info {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hero / Títulos */
+.titulo-principal {
+    background: linear-gradient(120deg, #0b3b3f, #e67e22);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero-section {
+    padding: 1rem 0 2rem 0;
+}
+
+.cta-final {
+    background: linear-gradient(145deg, #fff4e6, #ffffff);
+    border: 1px solid #ffedd5;
+}
+
+/* Tabela responsiva */
+.table th {
+    background-color: #e9f0ef;
+    font-weight: 600;
+}
+
+/* Rodapé - fixo apenas no final */
+.rodape {
+    background-color: #0b3b3f;
+    color: #d4e6e3;
+    border-top: 1px solid #2c6e68;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Ajustes para mobile */
+@media (max-width: 768px) {
+    .main-conteudo {
+        margin-top: 75px;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .btn-doador {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .hero-section .btn-outline-dark {
+        width: 100%;
+    }
+}
