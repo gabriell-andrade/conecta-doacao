@@ -113,10 +113,22 @@ body {
 /* Rodapé - fixo apenas no final */
 .rodape {
     background-color: #0b3b3f;
-    color: #d4e6e3;
+    color: #ffffff;
     border-top: 1px solid #2c6e68;
     margin-top: auto;
     width: 100%;
+}
+
+.rodape p {
+    color: #ffffff;
+}
+
+.rodape .text-muted {
+    color: #d4e6e3 !important;
+}
+
+.rodape small {
+    color: #d4e6e3;
 }
 
 /* Ajustes para desktop */

@@ -14,7 +14,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <i class="bi bi-house-heart fs-4 me-2"></i>
+                <i class="bi bi-heart-fill text-warning fs-4 me-2"></i>
                 <span class="fw-bold">APAE Mogi das Cruzes</span>
             </a>
         </div>
@@ -31,6 +31,16 @@
                             <p class="text-muted">Faça login para cadastrar suas doações</p>
                         </div>
                         <div class="card-body p-4">
+                            
+                            <!-- MENSAGEM DE ERRO -->
+                            {% if erro %}
+                            <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                {{ erro }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                            
                             <form method="POST">
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">E-mail</label>

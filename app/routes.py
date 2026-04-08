@@ -51,6 +51,7 @@ def upload_foto():
 
 @main.route("/login", methods=["GET", "POST"])
 def login():
+    erro = None
     if request.method == "POST":
         email = request.form.get("email")
         senha = request.form.get("senha")
@@ -69,10 +70,10 @@ def login():
             session["nome"] = user["nome"]
             session["foto_perfil"] = user["foto_perfil"]
             return redirect("/")
+        else:
+            erro = "E-mail ou senha inválidos. Tente novamente."
 
-        return "Login inválido"
-
-    return render_template("login.html")
+    return render_template("login.html", erro=erro)
 
 @main.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
@@ -129,18 +130,19 @@ def cadastrar_doador():
 
         conn.execute(
             """INSERT INTO doadores 
-            (usuario_id, nome, email, cep, rua, numero, complemento, bairro, cidade, estado, descricao) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (usuario_id, nome, email, cep, rua, numero, complemento, bairro, cidade, estado, descricao, status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendente')""",
             (usuario_id, nome, email, cep, rua, numero, complemento, bairro, cidade, estado, descricao)
         )
         conn.commit()
+        conn.close()
+        
+        return render_template("doadores.html", sucesso="Cadastro de doação realizada com sucesso. Obrigado!")
 
-    doadores = conn.execute("SELECT * FROM doadores").fetchall()
     conn.close()
+    return render_template("doadores.html")
 
-    return render_template("doadores.html", doadores=doadores)
-
-@main.route("/excluir/<int:id>")
+@main.route("/excluir_doador/<int:id>")
 def excluir_doador(id):
     if not verificar_login():
         return redirect("/login")
@@ -150,7 +152,22 @@ def excluir_doador(id):
     conn.commit()
     conn.close()
 
-    return redirect("/doadores")
+    return redirect("/perfil")
+
+@main.route("/excluir_doacao/<int:id>")
+def excluir_doacao(id):
+    if not verificar_login():
+        return redirect("/login")
+    
+    if session.get("tipo") != "admin":
+        return "Acesso negado. Apenas administradores podem excluir doações."
+    
+    conn = get_connection()
+    conn.execute("DELETE FROM doadores WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    
+    return redirect("/perfil?deletado=1")
 
 @main.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar_doador(id):
@@ -180,7 +197,7 @@ def editar_doador(id):
         conn.commit()
         conn.close()
 
-        return redirect("/doadores")
+        return redirect("/perfil")
 
     doador = conn.execute(
         "SELECT * FROM doadores WHERE id = ?", (id,)
@@ -241,14 +258,56 @@ def relatorio():
         return "Acesso negado"
 
     conn = get_connection()
-    dados = conn.execute("""
-        SELECT cep, COUNT(*) as total
-        FROM doadores
-        GROUP BY cep
-    """).fetchall()
+    
+    cep = request.args.get("cep", "")
+    cidade = request.args.get("cidade", "")
+    status = request.args.get("status", "")
+    
+    query = "SELECT * FROM doadores WHERE 1=1"
+    params = []
+    
+    if cep:
+        query += " AND cep LIKE ?"
+        params.append(f"%{cep}%")
+    if cidade:
+        query += " AND cidade LIKE ?"
+        params.append(f"%{cidade}%")
+    if status:
+        query += " AND status = ?"
+        params.append(status)
+    
+    query += " ORDER BY id DESC"
+    
+    doacoes = conn.execute(query, params).fetchall()
     conn.close()
 
-    return render_template("relatorio.html", dados=dados)
+    return render_template("relatorio.html", doacoes=doacoes)
+
+@main.route("/editar_status/<int:id>", methods=["POST"])
+def editar_status(id):
+    if session.get("tipo") != "admin":
+        return "Acesso negado"
+    
+    novo_status = request.form.get("status")
+    
+    conn = get_connection()
+    conn.execute("UPDATE doadores SET status = ? WHERE id = ?", (novo_status, id))
+    conn.commit()
+    conn.close()
+    
+    return redirect("/relatorio?sucesso=1")
+
+@main.route("/excluir_relatorio/<int:id>")
+def excluir_relatorio(id):
+    if session.get("tipo") != "admin":
+        return "Acesso negado"
+    
+    conn = get_connection()
+    conn.execute("DELETE FROM doadores WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    
+    return redirect("/relatorio")
 
 @main.route("/logout")
 def logout():

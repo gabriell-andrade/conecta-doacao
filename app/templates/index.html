@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <i class="bi bi-house-heart fs-4 me-2"></i>
+                <i class="bi bi-heart-fill text-warning fs-4 me-2"></i>
                 <span class="fw-bold">APAE Mogi das Cruzes</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
@@ -33,8 +33,13 @@
                             </span>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="bi bi-house-door"></i> Início
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/perfil">
-                                <i class="bi bi-person-badge"></i> Meu Perfil
+                                <i class="bi bi-person-circle"></i> Meu Perfil
                             </a>
                         </li>
                         <li class="nav-item">
@@ -71,6 +76,15 @@
             </div>
         </div>
     </nav>
+
+    <!-- MENSAGEM DE ERRO NO LOGIN (via URL) -->
+    {% if request.args.get('erro') %}
+    <div class="alert alert-danger alert-dismissible fade show text-center rounded-3" role="alert" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; min-width: 300px;">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ request.args.get('erro') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
 
     <!-- CONTEÚDO PRINCIPAL (compensando o menu fixo) -->
     <main class="main-conteudo">
@@ -179,7 +193,7 @@
     <footer class="rodape mt-5 py-4">
         <div class="container text-center">
             <p class="mb-0">&copy; 2025 APAE Mogi das Cruzes - Todos os direitos reservados.</p>
-            <p class="small text-muted mt-2">Rua Exemplo, 123 - Centro, Mogi das Cruzes/SP | Telefone: (11) 99999-9999</p>
+            <p class="small text-muted mt-2">Rua Carmem Mouras Santos, 134 - Centro, Mogi das Cruzes/SP</p>
         </div>
     </footer>
 

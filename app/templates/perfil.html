@@ -14,21 +14,41 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <i class="bi bi-house-heart fs-4 me-2"></i>
+                <i class="bi bi-heart-fill text-warning fs-4 me-2"></i>
                 <span class="fw-bold">APAE Mogi das Cruzes</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/doadores"><i class="bi bi-person-plus"></i> Nova Doação</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/perfil"><i class="bi bi-person-circle"></i> Meu Perfil</a></li>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="bi bi-house-door"></i> Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/perfil">
+                            <i class="bi bi-person-circle"></i> Meu Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/doadores">
+                            <i class="bi bi-suit-heart-fill"></i> Nova Doação
+                        </a>
+                    </li>
                     {% if session.tipo == "admin" %}
-                    <li class="nav-item"><a class="nav-link" href="/relatorio"><i class="bi bi-graph-up"></i> Relatório</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/relatorio">
+                            <i class="bi bi-graph-up"></i> Relatório
+                        </a>
+                    </li>
                     {% endif %}
-                    <li class="nav-item"><a class="nav-link text-danger" href="/logout"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="/logout">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -37,6 +57,15 @@
     <main class="main-conteudo">
         <div class="container">
             
+            <!-- MENSAGEM DE SUCESSO AO DELETAR -->
+            {% if request.args.get('deletado') %}
+            <div class="alert alert-success alert-dismissible fade show text-center rounded-3" role="alert" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; min-width: 300px;">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Doação excluída com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
             <div class="text-center mb-4">
                 <h1 class="display-5 fw-bold titulo-principal">
                     <i class="bi bi-person-circle"></i> Meu Perfil
@@ -114,6 +143,8 @@
                         </div>
                         
                         <div class="card-body p-4">
+                            <!-- FORMULÁRIO DE FILTRO - APENAS PARA ADMIN -->
+                            {% if session.tipo == "admin" %}
                             <form method="GET" class="row g-2 mb-4 p-3 bg-light rounded-3">
                                 <div class="col-md-4">
                                     <input type="text" name="cidade" placeholder="Filtrar por cidade" class="form-control" value="{{ request.args.get('cidade', '') }}">
@@ -130,6 +161,7 @@
                                     </button>
                                 </div>
                             </form>
+                            {% endif %}
 
                             {% if doacoes %}
                                 <div class="table-responsive">
@@ -140,6 +172,9 @@
                                                 <th><i class="bi bi-box-seam"></i> Descrição</th>
                                                 <th><i class="bi bi-geo-alt"></i> Cidade</th>
                                                 <th><i class="bi bi-mailbox"></i> CEP</th>
+                                                {% if session.tipo == "admin" %}
+                                                <th><i class="bi bi-trash"></i> Ações</th>
+                                                {% endif %}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -149,6 +184,13 @@
                                                 <td>{{ d.descricao or '-' }}</td>
                                                 <td>{{ d.cidade or '-' }}</td>
                                                 <td>{{ d.cep or '-' }}</td>
+                                                {% if session.tipo == "admin" %}
+                                                <td>
+                                                    <a href="/excluir_doacao/{{ d.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir esta doação? Esta ação não pode ser desfeita.')">
+                                                        <i class="bi bi-trash-fill"></i> Excluir
+                                                    </a>
+                                                </td>
+                                                {% endif %}
                                             </tr>
                                             {% endfor %}
                                         </tbody>
