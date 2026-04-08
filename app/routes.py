@@ -75,8 +75,8 @@ def cadastrar_doador():
     conn = get_connection()
 
     if request.method == "POST":
-        nome = request.form.get("nome")
-        email = request.form.get("email")
+        nome = session.get("nome")
+        email = session.get("email")
         cep = request.form.get("cep")
         rua = request.form.get("rua", "")
         numero = request.form.get("numero", "")
