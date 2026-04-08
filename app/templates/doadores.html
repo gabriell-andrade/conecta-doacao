@@ -35,48 +35,74 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     
-                    <!-- FORMULÁRIO DE CADASTRO -->
                     <div class="card shadow-lg border-0 rounded-4 mb-5">
                         <div class="card-header bg-transparent border-0 pt-4">
-                            <h2 class="text-center fw-bold"><i class="bi bi-send-heart me-2 text-primary"></i> Cadastrar Nova Doação</h2>
+                            <h2 class="text-center fw-bold">
+                                <i class="bi bi-send-heart me-2 text-primary"></i> Cadastrar Nova Doação
+                            </h2>
                             <p class="text-center text-muted">Preencha os dados abaixo. Os campos com * são obrigatórios.</p>
                         </div>
+
                         <div class="card-body p-4">
                             <form method="POST" id="formDoador">
                                 <div class="row g-3">
+
+                                    <!-- NOME -->
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Nome completo *</label>
-                                        <input type="text" name="nome" class="form-control" placeholder="Ex: João da Silva" required>
+                                        <input type="text" name="nome" class="form-control" value="{{ session.nome }}" readonly>
                                     </div>
+
+                                    <!-- EMAIL -->
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">E-mail</label>
-                                        <input type="email" name="email" class="form-control" placeholder="seuemail@exemplo.com">
+                                        <input type="email" name="email" class="form-control" value="{{ session.email }}" readonly>
                                     </div>
+
+                                    <!-- DESCRIÇÃO -->
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-semibold">O que você vai doar? *</label>
+                                        <input type="text" name="descricao" class="form-control" placeholder="Ex: roupas, alimentos..." required>
+                                    </div>
+
                                     <div class="col-md-4">
                                         <label class="form-label fw-semibold">CEP</label>
                                         <input type="text" id="cep" name="cep" class="form-control" placeholder="00000-000" maxlength="9">
                                     </div>
+
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Rua</label>
                                         <input type="text" id="rua" name="rua" class="form-control" placeholder="Rua ...">
                                     </div>
+
                                     <div class="col-md-2">
                                         <label class="form-label fw-semibold">Número</label>
                                         <input type="text" name="numero" class="form-control" placeholder="123">
                                     </div>
+
                                     <div class="col-md-6">
                                         <label class="form-label fw-semibold">Complemento</label>
                                         <input type="text" name="complemento" class="form-control" placeholder="Apto, Bloco...">
                                     </div>
+
+                                    <!-- BAIRRO (NOVO) -->
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-semibold">Bairro</label>
+                                        <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro">
+                                    </div>
+
                                     <div class="col-md-3">
                                         <label class="form-label fw-semibold">Cidade</label>
                                         <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Cidade">
                                     </div>
+
                                     <div class="col-md-3">
                                         <label class="form-label fw-semibold">Estado</label>
                                         <input type="text" id="estado" name="estado" class="form-control" placeholder="UF">
                                     </div>
+
                                 </div>
+
                                 <div class="text-center mt-4">
                                     <button type="submit" class="btn btn-doador btn-lg px-5">
                                         <i class="bi bi-check-circle"></i> Registrar Doação
@@ -86,7 +112,7 @@
                         </div>
                     </div>
 
-                    <!-- LISTA DE DOADORES CADASTRADOS -->
+                    <!-- LISTA -->
                     <div id="lista-doadores">
                         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
                             <h3 class="fw-bold"><i class="bi bi-table me-2"></i> Doadores Registrados</h3>
@@ -98,7 +124,13 @@
                             <table class="table table-hover table-striped align-middle">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>ID</th><th>Nome</th><th>Email</th><th>CEP</th><th>Cidade/UF</th><th>Ações</th>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>CEP</th>
+                                        <th>Bairro</th>
+                                        <th>Cidade/UF</th>
+                                        <th>Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,10 +140,11 @@
                                         <td class="fw-semibold">{{ d.nome }}</td>
                                         <td>{{ d.email or '-' }}</td>
                                         <td>{{ d.cep or '-' }}</td>
+                                        <td>{{ d.bairro or '-' }}</td>
                                         <td>{{ d.cidade }}/{{ d.estado }}</td>
                                         <td>
                                             <a href="/editar/{{ d.id }}" class="btn btn-sm btn-outline-primary me-1">
-                                                <i class="bi bi-pencil"></i> Editar
+                                                <i class="bi bi-pencil"></i>
                                             </a>
                                             <a href="/excluir/{{ d.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Excluir este registro?')">
                                                 <i class="bi bi-trash"></i>
@@ -124,22 +157,15 @@
                         </div>
                         {% else %}
                         <div class="alert alert-info text-center">
-                            <i class="bi bi-info-circle"></i> Nenhum doador cadastrado ainda. Seja o primeiro!
+                            Nenhum doador cadastrado ainda.
                         </div>
                         {% endif %}
                     </div>
+
                 </div>
             </div>
         </div>
     </main>
-
-    <footer class="rodape mt-5 py-3">
-        <div class="container text-center">
-            <p class="mb-0 small">&copy; 2025 APAE Mogi das Cruzes - Sistema de Apoio a Doadores</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
