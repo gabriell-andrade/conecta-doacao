@@ -1,20 +1,27 @@
 // Auto preenchimento de CEP via ViaCEP (somente na página de cadastro)
 document.addEventListener('DOMContentLoaded', function() {
     const campoCep = document.getElementById('cep');
+
     if (campoCep) {
         campoCep.addEventListener('blur', function() {
             let cep = this.value.replace(/\D/g, '');
+
             if (cep.length === 8) {
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                     .then(resposta => resposta.json())
                     .then(dados => {
                         if (!dados.erro) {
+
                             const rua = document.getElementById('rua');
+                            const bairro = document.getElementById('bairro'); // ✅ NOVO
                             const cidade = document.getElementById('cidade');
                             const estado = document.getElementById('estado');
+
                             if (rua) rua.value = dados.logradouro || '';
+                            if (bairro) bairro.value = dados.bairro || ''; // ✅ NOVO
                             if (cidade) cidade.value = dados.localidade || '';
                             if (estado) estado.value = dados.uf || '';
+
                         } else {
                             console.warn('CEP não encontrado');
                         }
