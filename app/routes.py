@@ -4,9 +4,8 @@ from .models import get_connection
 main = Blueprint('main', __name__)
 
 @main.route("/")
-def home():
-    return "Backend funcionando 🚀"
-
+def index():
+    return render_template("index.html")
 
 @main.route("/doadores", methods=["GET", "POST"])
 def cadastrar_doador():
@@ -35,7 +34,6 @@ def cadastrar_doador():
 
     return render_template("doadores.html", doadores=doadores)
 
-
 @main.route("/excluir/<int:id>")
 def excluir_doador(id):
     conn = get_connection()
@@ -44,7 +42,6 @@ def excluir_doador(id):
     conn.close()
 
     return redirect("/doadores")
-
 
 @main.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar_doador(id):
