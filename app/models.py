@@ -35,6 +35,7 @@ def create_tables():
             cidade TEXT,
             estado TEXT,
             descricao TEXT,
+            status TEXT,
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
         )
     """)
