@@ -80,7 +80,7 @@ def login():
         else:
             return redirect("/login?erro=1")
 
-    return render_template("login.html")
+    return render_template("auth/login.html")
 
 
 @main.route("/cadastro", methods=["GET", "POST"])
@@ -113,10 +113,10 @@ def cadastro():
 
         return redirect("/login")
 
-    return render_template("cadastro.html")
+    return render_template("auth/register.html")
 
 
-@main.route("/doadores", methods=["GET", "POST"])
+@main.route("/doacoes", methods=["GET", "POST"])
 def cadastrar_doador():
     if not verificar_login():
         return redirect("/login")
@@ -148,10 +148,10 @@ def cadastrar_doador():
         conn.commit()
         conn.close()
         
-        return render_template("doadores.html", sucesso="Cadastro de doação realizada com sucesso. Obrigado!")
+        return render_template("doacoes/criar_doacao.html", sucesso="Cadastro de doação realizada com sucesso. Obrigado!")
 
     conn.close()
-    return render_template("doadores.html")
+    return render_template("doacoes/criar_doacao.html")
 
 
 @main.route("/editar/<int:id>", methods=["GET", "POST"])
@@ -192,7 +192,7 @@ def editar_doador(id):
     ).fetchone()
     conn.close()
 
-    return render_template("editar.html", doador=doador)
+    return render_template("doacoes/editar.html", doador=doador)
 
 
 @main.route("/excluir_doador/<int:id>")
@@ -255,7 +255,7 @@ def perfil():
     doacoes = conn.execute(query, params).fetchall()
     conn.close()
 
-    return render_template("perfil.html", doacoes=doacoes)
+    return render_template("user/perfil.html", doacoes=doacoes)
 
 
 @main.route("/relatorio")
@@ -294,7 +294,7 @@ def relatorio():
 
     conn.close()
 
-    return render_template("relatorio.html", doacoes=doacoes, cidades=cidades)
+    return render_template("admin/relatorio.html", doacoes=doacoes, cidades=cidades)
 
 
 @main.route("/editar_status/<int:id>", methods=["POST"])
