@@ -56,6 +56,7 @@ def upload_foto():
 @main.route("/login", methods=["GET", "POST"])
 def login():
     erro = None
+
     if request.method == "POST":
         email = request.form.get("email")
         senha = request.form.get("senha")
@@ -71,19 +72,15 @@ def login():
             session["usuario_id"] = user["id"]
             session["tipo"] = user["tipo"]
             session["email"] = user["email"]
-
             session["nome"] = user["nome"]
             session["sobrenome"] = user["sobrenome"]
-
-            session["nome_completo"] = f"{user['nome']} {user['sobrenome']}"
-
             session["foto_perfil"] = user["foto_perfil"]
 
             return redirect("/")
         else:
-            erro = "E-mail ou senha inválidos. Tente novamente."
+            return redirect("/login?erro=1")
 
-    return render_template("login.html", erro=erro)
+    return render_template("login.html")
 
 
 @main.route("/cadastro", methods=["GET", "POST"])
