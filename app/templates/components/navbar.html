@@ -22,6 +22,7 @@
 
                 {% if session.tipo == "admin" %}
 
+                <!-- 🔥 RELATÓRIO VISÍVEL -->
                 <li class="nav-item">
                     <a class="nav-link text-danger fw-bold" href="/relatorio">
                         <i class="bi bi-graph-up"></i> Relatório
@@ -53,13 +54,7 @@
                             </a>
                         </li>
 
-                        {% if session.tipo == "admin" %}
-                        <li>
-                            <a class="dropdown-item" href="/relatorio">
-                                <i class="bi bi-graph-up"></i> Relatório
-                            </a>
-                        </li>
-                        {% endif %}
+                        <!-- ❌ REMOVIDO RELATÓRIO DAQUI -->
 
                         <li><hr class="dropdown-divider"></li>
 
