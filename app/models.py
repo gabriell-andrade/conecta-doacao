@@ -14,6 +14,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT,
+            sobrenome TEXT,
             email TEXT UNIQUE,
             senha TEXT,
             tipo TEXT,

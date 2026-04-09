@@ -32,13 +32,13 @@
                         </div>
                         <div class="card-body p-4">
                             
-                            {% if erro %}
+                            {% if request.args.get('erro') %}
                             <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                                {{ erro }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                E-mail ou senha inválidos.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
-                            {% endif %}
+                            {% endif %} 
                             
                             <form method="POST">
                                 <div class="mb-3">
@@ -63,11 +63,7 @@
         </div>
     </main>
 
-    <footer class="rodape py-3">
-        <div class="container text-center">
-            <p class="mb-0 small">&copy; 2025 APAE Mogi das Cruzes</p>
-        </div>
-    </footer>
+    {% include "components/footer.html" %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

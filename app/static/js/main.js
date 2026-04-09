@@ -89,3 +89,63 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+const checkboxSN = document.getElementById("semNumero");
+const campoNumero = document.getElementById("numero");
+
+if (checkboxSN && campoNumero) {
+    checkboxSN.addEventListener("change", function () {
+        if (this.checked) {
+            campoNumero.value = "S/N";
+            campoNumero.disabled = true;
+        } else {
+            campoNumero.value = "";
+            campoNumero.disabled = false;
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const campoCep = document.querySelector('input[name="cep"]');
+
+    if (campoCep) {
+        campoCep.addEventListener("input", function (e) {
+            let valor = e.target.value.replace(/\D/g, "");
+
+            if (valor.length > 5) {
+                valor = valor.substring(0, 5) + "-" + valor.substring(5, 8);
+            }
+
+            e.target.value = valor;
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cepInput = document.getElementById("cepInput");
+
+    if (cepInput) {
+        const form = cepInput.closest("form");
+
+        form.addEventListener("submit", function (e) {
+            const cep = cepInput.value.replace(/\D/g, "");
+
+            if (cep && cep.length < 8) {
+                e.preventDefault();
+                alert("Digite um CEP completo.");
+            }
+        });
+    }
+});
+
+document.querySelectorAll("form[action='/login']").forEach(form => {
+    form.addEventListener("submit", function(e) {
+        const email = form.querySelector("input[name='email']").value.trim();
+        const senha = form.querySelector("input[name='senha']").value.trim();
+
+        if (!email || !senha) {
+            e.preventDefault();
+            alert("Preencha e-mail e senha para entrar.");
+        }
+    });
+});

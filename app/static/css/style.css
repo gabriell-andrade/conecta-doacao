@@ -1,4 +1,3 @@
-/* RESET E CONFIGURAÇÕES GLOBAIS */
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +17,6 @@ body {
     min-height: 100vh;
 }
 
-/* MENU FIXO */
 .navbar {
     background: linear-gradient(135deg, #0b3b3f 0%, #1b5e5a 100%);
     padding: 0.8rem 0;
@@ -41,15 +39,13 @@ body {
     border-radius: 30px;
 }
 
-/* Compensar altura do menu fixo */
 .main-conteudo {
-    margin-top: 90px;
-    padding-bottom: 2rem;
+    margin-top: 120px;
+    padding-bottom: 40px;
     flex: 1;
     transition: margin-top 0.3s ease;
 }
 
-/* Botão principal */
 .btn-doador {
     background: linear-gradient(95deg, #e67e22, #f39c12);
     border: none;
@@ -66,7 +62,6 @@ body {
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* Cards da página inicial */
 .card-info {
     background: white;
     transition: transform 0.25s, box-shadow 0.25s;
@@ -87,7 +82,6 @@ body {
     justify-content: center;
 }
 
-/* Títulos */
 .titulo-principal {
     background: linear-gradient(120deg, #0b3b3f, #e67e22);
     background-clip: text;
@@ -104,13 +98,11 @@ body {
     border: 1px solid #ffedd5;
 }
 
-/* Tabela responsiva */
 .table th {
     background-color: #e9f0ef;
     font-weight: 600;
 }
 
-/* Rodapé - fixo apenas no final */
 .rodape {
     background-color: #0b3b3f;
     color: #ffffff;
@@ -131,14 +123,12 @@ body {
     color: #d4e6e3;
 }
 
-/* Ajustes para desktop */
 @media (min-width: 992px) {
     .navbar-collapse {
         justify-content: flex-end;
     }
 }
 
-/* Ajustes para mobile */
 @media (max-width: 991px) {
     .main-conteudo {
         margin-top: 75px;
@@ -194,7 +184,6 @@ body {
     }
 }
 
-/* Ajustes para telas muito pequenas */
 @media (max-width: 576px) {
     .main-conteudo {
         margin-top: 70px;
@@ -217,7 +206,6 @@ body {
     }
 }
 
-/* Estilização do perfil e cards */
 .card {
     border-radius: 1rem;
 }
@@ -255,4 +243,4 @@ body {
     background-color: #e0f2f1;
     border-color: #b2dfdb;
     color: #00695c;
-}
+}   
