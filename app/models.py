@@ -16,7 +16,8 @@ def create_tables():
             nome TEXT,
             email TEXT UNIQUE,
             senha TEXT,
-            tipo TEXT
+            tipo TEXT,
+            foto_perfil TEXT
         )
     """)
 
