@@ -20,7 +20,7 @@
         </div>
     </nav>
 
-    <main class="main-conteudo d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 150px);">
+    <main class="main-conteudo d-flex align-items-center justify-content-center">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
@@ -32,21 +32,49 @@
                         </div>
                         <div class="card-body p-4">
                             <form method="POST">
-                                <div class="mb-3">
-                                    <label class="form-label fw-semibold">Nome completo *</label>
-                                    <input type="text" name="nome" placeholder="Digite seu nome completo" class="form-control" required>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-semibold">
+                                            Nome<span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="nome" placeholder="Seu nome" class="form-control" required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-semibold">
+                                            Sobrenome<span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="sobrenome" placeholder="Seu sobrenome" class="form-control" required>
+                                    </div>
                                 </div>
+
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold">E-mail *</label>
+                                    <label class="form-label fw-semibold">
+                                        E-mail<span class="text-danger">*</span>
+                                    </label>
                                     <input type="email" name="email" placeholder="seuemail@exemplo.com" class="form-control" required>
                                 </div>
+
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold">Senha *</label>
+                                    <label class="form-label fw-semibold">
+                                        Senha<span class="text-danger">*</span>
+                                    </label>
                                     <input type="password" name="senha" placeholder="Crie uma senha" class="form-control" required>
                                 </div>
-                                <button type="submit" class="btn btn-doador w-100 py-2">
-                                    <i class="bi bi-check-circle"></i> Cadastrar
-                                </button>
+
+                                <div class="d-grid gap-2 mt-3">
+
+                                    <button type="submit" class="btn btn-doador py-2">
+                                        <i class="bi bi-check-circle"></i> Cadastrar
+                                    </button>
+
+                                    <a href="/" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left"></i> Voltar
+                                    </a>
+
+                                </div>
+
                             </form>
                             <div class="text-center mt-4">
                                 <p class="mb-0">Já tem conta? <a href="/login" class="text-decoration-none">Faça login</a></p>

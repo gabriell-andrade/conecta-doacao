@@ -71,8 +71,14 @@ def login():
             session["usuario_id"] = user["id"]
             session["tipo"] = user["tipo"]
             session["email"] = user["email"]
+
             session["nome"] = user["nome"]
+            session["sobrenome"] = user["sobrenome"]
+
+            session["nome_completo"] = f"{user['nome']} {user['sobrenome']}"
+
             session["foto_perfil"] = user["foto_perfil"]
+
             return redirect("/")
         else:
             erro = "E-mail ou senha inválidos. Tente novamente."
@@ -84,6 +90,7 @@ def login():
 def cadastro():
     if request.method == "POST":
         nome = request.form.get("nome")
+        sobrenome = request.form.get("sobrenome")
         email = request.form.get("email")
         senha = request.form.get("senha")
 
@@ -99,8 +106,10 @@ def cadastro():
             return "Usuário já existe"
 
         conn.execute(
-            "INSERT INTO usuarios (nome, email, senha, tipo, foto_perfil) VALUES (?, ?, ?, 'user', NULL)",
-            (nome, email, senha)
+            """INSERT INTO usuarios 
+            (nome, sobrenome, email, senha, tipo, foto_perfil) 
+            VALUES (?, ?, ?, ?, 'user', NULL)""",
+            (nome, sobrenome, email, senha)
         )
         conn.commit()
         conn.close()
@@ -118,7 +127,7 @@ def cadastrar_doador():
     conn = get_connection()
 
     if request.method == "POST":
-        nome = session.get("nome")
+        nome = f"{session.get('nome')} {session.get('sobrenome')}"
         email = session.get("email")
         cep = request.form.get("cep")
         rua = request.form.get("rua", "")

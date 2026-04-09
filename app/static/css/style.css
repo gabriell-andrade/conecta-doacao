@@ -40,8 +40,8 @@ body {
 }
 
 .main-conteudo {
-    margin-top: 90px;
-    padding-bottom: 2rem;
+    margin-top: 120px;
+    padding-bottom: 40px;
     flex: 1;
     transition: margin-top 0.3s ease;
 }
