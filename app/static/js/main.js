@@ -89,3 +89,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+const checkboxSN = document.getElementById("semNumero");
+const campoNumero = document.getElementById("numero");
+
+if (checkboxSN && campoNumero) {
+    checkboxSN.addEventListener("change", function () {
+        if (this.checked) {
+            campoNumero.value = "S/N";
+            campoNumero.disabled = true;
+        } else {
+            campoNumero.value = "";
+            campoNumero.disabled = false;
+        }
+    });
+}
