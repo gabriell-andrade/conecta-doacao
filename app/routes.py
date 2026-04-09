@@ -5,11 +5,9 @@ from werkzeug.utils import secure_filename
 
 main = Blueprint('main', __name__)
 
-# Configuração para upload de arquivos
 UPLOAD_FOLDER = 'app/static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
-# Criar pasta de upload se não existir
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def allowed_file(filename):
