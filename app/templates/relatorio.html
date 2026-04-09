@@ -11,48 +11,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <i class="bi bi-heart-fill text-warning fs-4 me-2"></i>
-                <span class="fw-bold">APAE Mogi das Cruzes</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="bi bi-house-door"></i> Início
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/perfil">
-                            <i class="bi bi-person-circle"></i> Meu Perfil
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/doadores">
-                            <i class="bi bi-suit-heart-fill"></i> Nova Doação
-                        </a>
-                    </li>
-                    {% if session.tipo == "admin" %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/relatorio">
-                            <i class="bi bi-graph-up"></i> Relatório
-                        </a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link text-danger" href="/logout">
-                            <i class="bi bi-box-arrow-right"></i> Sair
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    {% include "components/navbar.html" %}
 
     <main class="main-conteudo">
         <div class="container">

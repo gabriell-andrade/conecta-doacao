@@ -1,0 +1,92 @@
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
+        <div class="container">
+
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="bi bi-heart-fill text-warning fs-4 me-2"></i>
+                <span class="fw-bold">APAE Mogi das Cruzes</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="bi bi-house-door"></i> Início
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/doadores">
+                            <i class="bi bi-suit-heart-fill"></i> Nova Doação
+                        </a>
+                    </li>
+
+                    {% if session.usuario_id %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> Olá, {{ session.nome }}
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <a class="dropdown-item" href="/perfil">
+                                    <i class="bi bi-person"></i> Meu Perfil
+                                </a>
+                            </li>
+
+                            {% if session.tipo == "admin" %}
+                            <li>
+                                <a class="dropdown-item" href="/relatorio">
+                                    <i class="bi bi-graph-up"></i> Relatório
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item text-danger" href="/logout">
+                                    <i class="bi bi-box-arrow-right"></i> Sair
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    {% else %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-person"></i> Acessar conta
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px;">
+
+                            <form method="POST" action="/login">
+                                <input type="email" name="email" placeholder="E-mail" class="form-control mb-2" required>
+                                <input type="password" name="senha" placeholder="Senha" class="form-control mb-2" required>
+                                <button class="btn btn-success w-100 mb-2">
+                                    Entrar
+                                </button>
+                            </form>
+
+                            <div class="text-center">
+                                <a href="/cadastro">Criar conta</a>
+                            </div>
+
+                        </div>
+                    </li>
+
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </nav>
