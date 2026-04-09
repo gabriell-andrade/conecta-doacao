@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório de Doações - APAE Mogi</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,167 +11,143 @@
 </head>
 <body>
 
-    {% include "components/navbar.html" %}
+{% include "components/navbar.html" %}
 
-    <main class="main-conteudo">
-        <div class="container">
-            
-            {% if request.args.get('sucesso') %}
-            <div class="alert alert-success alert-dismissible fade show text-center rounded-3" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                Status atualizado com sucesso!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endif %}
+<main class="main-conteudo">
+<div class="container">
 
-            <div class="text-center mb-4">
-                <h1 class="display-5 fw-bold titulo-principal">
-                    <i class="bi bi-graph-up"></i> Relatório de Doações
-                </h1>
-                <p class="text-muted">Gerencie e acompanhe todas as doações cadastradas</p>
-            </div>
+    {% if request.args.get('sucesso') %}
+    <div class="alert alert-success text-center">
+        Status atualizado com sucesso!
+    </div>
+    {% endif %}
 
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-header bg-transparent border-0 pt-4">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <h4 class="fw-bold mb-0">
-                            <i class="bi bi-table me-2 text-primary"></i> Lista de Doações
-                        </h4>
-                        <span class="badge bg-secondary p-2">{{ doacoes|length }} doação(ões)</span>
+    <div class="text-center mb-4">
+        <h1 class="display-5 fw-bold">
+            <i class="bi bi-graph-up"></i> Relatório de Doações
+        </h1>
+        <p class="text-muted">Gerencie e acompanhe todas as doações cadastradas</p>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+            <form method="GET" class="row g-3 mb-4 p-3 bg-light rounded-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-mailbox"></i> Buscar por CEP
+                    </label>
+
+                    <div class="position-relative">
+                        <input type="text" id="cepInput" name="cep"
+                            class="form-control pe-5"
+                            placeholder="Digite o CEP"
+                            value="{{ request.args.get('cep', '') }}"
+                            maxlength="9">
+
+                        {% if request.args.get('cep') %}
+                        <a href="/relatorio"
+                        class="position-absolute end-0 top-50 translate-middle-y me-3 text-danger"
+                        style="text-decoration: none; font-size: 14px; cursor: pointer;">
+                            ✖
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
-                
-                <div class="card-body p-4">
-                                    
-                    <form method="GET" class="row g-3 mb-4 p-3 bg-light rounded-3">
-                        <div class="col-md-4">
-                            <label class="form-label fw-semibold">
-                                <i class="bi bi-mailbox"></i> Buscar por CEP
-                            </label>
-                            <input type="text" name="cep" placeholder="Digite o CEP" class="form-control" value="{{ request.args.get('cep', '') }}" maxlength="9">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold">
-                                <i class="bi bi-geo-alt"></i> Cidade
-                            </label>
-                            <input type="text" name="cidade" placeholder="Filtrar por cidade" class="form-control" value="{{ request.args.get('cidade', '') }}">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label fw-semibold">
-                                <i class="bi bi-tag"></i> Status
-                            </label>
-                            <select name="status" class="form-select">
-                                <option value="">Todos</option>
-                                <option value="pendente" {% if request.args.get('status') == 'pendente' %}selected{% endif %}>Pendente</option>
-                                <option value="coletado" {% if request.args.get('status') == 'coletado' %}selected{% endif %}>Coletado</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label fw-semibold invisible">Filtrar</label>
-                            <button class="btn btn-primary w-100">
-                                <i class="bi bi-search"></i> Filtrar
-                            </button>
-                        </div>
-                    </form>
 
-                    {% if doacoes %}
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th><i class="bi bi-person"></i> Nome</th>
-                                    <th><i class="bi bi-box-seam"></i> Descrição</th>
-                                    <th><i class="bi bi-geo-alt"></i> Cidade</th>
-                                    <th><i class="bi bi-pin-map"></i> Endereço</th>
-                                    <th><i class="bi bi-mailbox"></i> CEP</th>
-                                    <th><i class="bi bi-tag"></i> Status</th>
-                                    <th><i class="bi bi-gear"></i> Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for d in doacoes %}
-                                <tr>
-                                    <td class="fw-semibold">{{ d.nome }}</td>
-                                    <td>{{ d.descricao or '-' }}</td>
-                                    <td>{{ d.cidade or '-' }}</td>
-                                    <td>{{ d.rua or '-' }}, {{ d.numero or '-' }}</td>
-                                    <td>{{ d.cep or '-' }}</td>
-                                    <td>
-                                        {% if d.status == 'pendente' %}
-                                            <span class="badge bg-warning text-dark">
-                                                <i class="bi bi-clock-history"></i> Pendente
-                                            </span>
-                                        {% else %}
-                                            <span class="badge bg-success">
-                                                <i class="bi bi-check-circle"></i> Coletado
-                                            </span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalStatus{{ d.id }}">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <a href="/excluir_relatorio/{{ d.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir esta doação?')">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                
-                                <div class="modal fade" id="modalStatus{{ d.id }}" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content rounded-4">
-                                            <div class="modal-header border-0">
-                                                <h5 class="modal-title fw-bold">
-                                                    <i class="bi bi-pencil-square"></i> Alterar Status
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <form method="POST" action="/editar_status/{{ d.id }}">
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label class="form-label fw-semibold">Doador:</label>
-                                                        <p class="form-control-plaintext">{{ d.nome }}</p>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label fw-semibold">Descrição:</label>
-                                                        <p class="form-control-plaintext">{{ d.descricao or '-' }}</p>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="form-label fw-semibold">Status:</label>
-                                                        <select name="status" class="form-select">
-                                                            <option value="pendente" {% if d.status == 'pendente' %}selected{% endif %}>Pendente</option>
-                                                            <option value="coletado" {% if d.status == 'coletado' %}selected{% endif %}>Coletado</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer border-0 justify-content-center">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-doador">
-                                                        <i class="bi bi-save"></i> Salvar
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    {% else %}
-                    <div class="alert alert-info text-center py-4">
-                        <i class="bi bi-info-circle fs-1 d-block mb-2"></i>
-                        <p class="mb-0">Nenhuma doação encontrada.</p>
-                    </div>
-                    {% endif %}
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-geo-alt"></i> Cidade
+                    </label>
+
+                    <select name="cidade" class="form-select">
+                        <option value="">Todas</option>
+
+                        {% for c in cidades %}
+                        <option value="{{ c.cidade }}"
+                            {% if request.args.get('cidade') == c.cidade %}selected{% endif %}>
+                            {{ c.cidade }}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">
+                        <i class="bi bi-tag"></i> Status
+                    </label>
+                    <select name="status" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="pendente" {% if request.args.get('status') == 'pendente' %}selected{% endif %}>Pendente</option>
+                        <option value="coletado" {% if request.args.get('status') == 'coletado' %}selected{% endif %}>Coletado</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Filtrar
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Endereço</th>
+                            <th>Cidade</th>
+                            <th>CEP</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for d in doacoes %}
+                    <tr>
+                        <td>{{ d.nome }}</td>
+                        <td>{{ d.descricao }}</td>
+
+                        <td>
+                            {{ d.rua }}, {{ d.numero if d.numero else 'S/N' }}
+                        </td>
+
+                        <td>{{ d.cidade }}</td>
+
+                        <td>{{ d.cep }}</td>
+
+                        <td>
+                            {% if d.status == 'pendente' %}
+                                <span class="badge bg-warning text-dark">Pendente</span>
+                            {% else %}
+                                <span class="badge bg-success">Coletado</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <a href="/excluir_relatorio/{{ d.id }}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
             </div>
+
         </div>
-    </main>
+    </div>
+</div>
+</main>
 
-    {% include "components/footer.html" %}
+{% include "components/footer.html" %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 </body>
 </html>

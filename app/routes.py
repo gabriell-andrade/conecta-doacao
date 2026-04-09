@@ -259,7 +259,7 @@ def relatorio():
 
     conn = get_connection()
     
-    cep = request.args.get("cep", "")
+    cep = request.args.get("cep", "").replace("-", "")
     cidade = request.args.get("cidade", "")
     status = request.args.get("status", "")
     
@@ -267,11 +267,13 @@ def relatorio():
     params = []
     
     if cep:
-        query += " AND cep LIKE ?"
+        query += " AND REPLACE(cep, '-', '') LIKE ?"
         params.append(f"%{cep}%")
+
     if cidade:
-        query += " AND cidade LIKE ?"
-        params.append(f"%{cidade}%")
+        query += " AND cidade = ?"
+        params.append(cidade)
+
     if status:
         query += " AND status = ?"
         params.append(status)
@@ -279,9 +281,14 @@ def relatorio():
     query += " ORDER BY id DESC"
     
     doacoes = conn.execute(query, params).fetchall()
+
+    cidades = conn.execute(
+        "SELECT DISTINCT cidade FROM doadores ORDER BY cidade"
+    ).fetchall()
+
     conn.close()
 
-    return render_template("relatorio.html", doacoes=doacoes)
+    return render_template("relatorio.html", doacoes=doacoes, cidades=cidades)
 
 
 @main.route("/editar_status/<int:id>", methods=["POST"])

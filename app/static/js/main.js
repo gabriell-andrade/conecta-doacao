@@ -104,3 +104,36 @@ if (checkboxSN && campoNumero) {
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const campoCep = document.querySelector('input[name="cep"]');
+
+    if (campoCep) {
+        campoCep.addEventListener("input", function (e) {
+            let valor = e.target.value.replace(/\D/g, "");
+
+            if (valor.length > 5) {
+                valor = valor.substring(0, 5) + "-" + valor.substring(5, 8);
+            }
+
+            e.target.value = valor;
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cepInput = document.getElementById("cepInput");
+
+    if (cepInput) {
+        const form = cepInput.closest("form");
+
+        form.addEventListener("submit", function (e) {
+            const cep = cepInput.value.replace(/\D/g, "");
+
+            if (cep && cep.length < 8) {
+                e.preventDefault();
+                alert("Digite um CEP completo.");
+            }
+        });
+    }
+});
