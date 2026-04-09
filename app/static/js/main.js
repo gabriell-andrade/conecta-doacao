@@ -137,3 +137,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+document.querySelectorAll("form[action='/login']").forEach(form => {
+    form.addEventListener("submit", function(e) {
+        const email = form.querySelector("input[name='email']").value.trim();
+        const senha = form.querySelector("input[name='senha']").value.trim();
+
+        if (!email || !senha) {
+            e.preventDefault();
+            alert("Preencha e-mail e senha para entrar.");
+        }
+    });
+});

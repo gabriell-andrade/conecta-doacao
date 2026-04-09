@@ -22,7 +22,6 @@
 
                 {% if session.tipo == "admin" %}
 
-                <!-- 🔥 RELATÓRIO VISÍVEL -->
                 <li class="nav-item">
                     <a class="nav-link text-danger fw-bold" href="/relatorio">
                         <i class="bi bi-graph-up"></i> Relatório
@@ -54,8 +53,6 @@
                             </a>
                         </li>
 
-                        <!-- ❌ REMOVIDO RELATÓRIO DAQUI -->
-
                         <li><hr class="dropdown-divider"></li>
 
                         <li>
@@ -76,10 +73,20 @@
 
                     <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px;">
 
-                        <form method="POST" action="/login">
-                            <input type="email" name="email" placeholder="E-mail" class="form-control mb-2" required>
-                            <input type="password" name="senha" placeholder="Senha" class="form-control mb-2" required>
-                            <button class="btn btn-success w-100 mb-2">
+                        <div id="erroLogin" class="text-danger small mb-2 d-none">
+                            Preencha e-mail e senha.
+                        </div>
+
+                        <form method="POST" action="/login" id="formLogin">
+                            <input type="email" name="email"
+                                placeholder="E-mail"
+                                class="form-control mb-2">
+
+                            <input type="password" name="senha"
+                                placeholder="Senha"
+                                class="form-control mb-2">
+
+                            <button type="submit" class="btn btn-success w-100 mb-2">
                                 Entrar
                             </button>
                         </form>
@@ -97,3 +104,24 @@
         </div>
     </div>
 </nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("formLogin");
+
+    if (form) {
+        form.addEventListener("submit", function (e) {
+            const email = form.querySelector("input[name='email']").value.trim();
+            const senha = form.querySelector("input[name='senha']").value.trim();
+            const erro = document.getElementById("erroLogin");
+
+            if (!email || !senha) {
+                e.preventDefault();
+                erro.classList.remove("d-none");
+            } else {
+                erro.classList.add("d-none");
+            }
+        });
+    }
+});
+</script>
