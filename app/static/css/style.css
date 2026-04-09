@@ -49,7 +49,7 @@ body {
     transition: margin-top 0.3s ease;
 }
 
-/* Botão principal (doar) */
+/* Botão principal */
 .btn-doador {
     background: linear-gradient(95deg, #e67e22, #f39c12);
     border: none;
@@ -87,7 +87,7 @@ body {
     justify-content: center;
 }
 
-/* Hero / Títulos */
+/* Títulos */
 .titulo-principal {
     background: linear-gradient(120deg, #0b3b3f, #e67e22);
     background-clip: text;

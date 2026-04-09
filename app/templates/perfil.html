@@ -57,7 +57,6 @@
     <main class="main-conteudo">
         <div class="container">
             
-            <!-- MENSAGEM DE SUCESSO AO DELETAR -->
             {% if request.args.get('deletado') %}
             <div class="alert alert-success alert-dismissible fade show text-center rounded-3" role="alert" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; min-width: 300px;">
                 <i class="bi bi-check-circle-fill me-2"></i>
@@ -143,7 +142,8 @@
                         </div>
                         
                         <div class="card-body p-4">
-                            <!-- FORMULÁRIO DE FILTRO - APENAS PARA ADMIN -->
+                            
+                            <!-- formulário admin -->
                             {% if session.tipo == "admin" %}
                             <form method="GET" class="row g-2 mb-4 p-3 bg-light rounded-3">
                                 <div class="col-md-4">
@@ -212,7 +212,7 @@
         </div>
     </main>
 
-    <!-- MODAL PARA UPLOAD DE FOTO -->
+    <!-- modal de fotos -->
     <div class="modal fade" id="modalFoto" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4">
