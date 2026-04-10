@@ -67,7 +67,7 @@ app/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/conecta-doacao.git
+git clone https://github.com/gabriell-andrade/conecta-doacao.git
 cd conecta-doacao
 ```
 
