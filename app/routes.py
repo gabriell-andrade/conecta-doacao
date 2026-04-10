@@ -85,6 +85,9 @@ def login():
 
 @main.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
+    mensagem_sucesso = None
+    erro = None
+    
     if request.method == "POST":
         nome = request.form.get("nome")
         sobrenome = request.form.get("sobrenome")
@@ -93,15 +96,18 @@ def cadastro():
 
         conn = get_connection()
 
+        # Verificar se usuário já existe
         existente = conn.execute(
             "SELECT * FROM usuarios WHERE email = ?",
             (email,)
         ).fetchone()
 
         if existente:
+            erro = "Este e-mail já está cadastrado. Tente outro."
             conn.close()
-            return "Usuário já existe"
+            return render_template("auth/register.html", erro=erro)
 
+        # Criar novo usuário
         conn.execute(
             """INSERT INTO usuarios 
             (nome, sobrenome, email, senha, tipo, foto_perfil) 
@@ -111,9 +117,11 @@ def cadastro():
         conn.commit()
         conn.close()
 
-        return redirect("/login")
+        # Mensagem de sucesso
+        mensagem_sucesso = "Cadastro realizado com sucesso! Faça login para continuar."
+        return render_template("auth/register.html", mensagem_sucesso=mensagem_sucesso)
 
-    return render_template("auth/register.html")
+    return render_template("auth/register.html", mensagem_sucesso=mensagem_sucesso, erro=erro)
 
 
 @main.route("/doacoes", methods=["GET", "POST"])
@@ -268,33 +276,66 @@ def relatorio():
     cep = request.args.get("cep", "").replace("-", "")
     cidade = request.args.get("cidade", "")
     status = request.args.get("status", "")
+    pagina = request.args.get("pagina", 1, type=int)
+    por_pagina = 10
     
+    # Query base
     query = "SELECT * FROM doadores WHERE 1=1"
+    count_query = "SELECT COUNT(*) as total FROM doadores WHERE 1=1"
     params = []
     
     if cep:
         query += " AND REPLACE(cep, '-', '') LIKE ?"
+        count_query += " AND REPLACE(cep, '-', '') LIKE ?"
         params.append(f"%{cep}%")
 
     if cidade:
         query += " AND cidade = ?"
+        count_query += " AND cidade = ?"
         params.append(cidade)
 
     if status:
         query += " AND status = ?"
+        count_query += " AND status = ?"
         params.append(status)
     
-    query += " ORDER BY id DESC"
+    # Calcular offset
+    offset = (pagina - 1) * por_pagina
     
-    doacoes = conn.execute(query, params).fetchall()
-
+    query += " ORDER BY id DESC LIMIT ? OFFSET ?"
+    
+    # Adicionar parâmetros de paginação
+    params_paginacao = params.copy()
+    params_paginacao.append(por_pagina)
+    params_paginacao.append(offset)
+    
+    # Executar queries
+    doacoes = conn.execute(query, params_paginacao).fetchall()
+    total = conn.execute(count_query, params).fetchone()["total"]
+    
+    # Calcular total de páginas
+    total_paginas = (total + por_pagina - 1) // por_pagina
+    
+    # Quantos registros estão sendo mostrados na página atual
+    registros_mostrados = len(doacoes)
+    
+    # Buscar cidades distintas para o filtro
     cidades = conn.execute(
         "SELECT DISTINCT cidade FROM doadores ORDER BY cidade"
     ).fetchall()
 
     conn.close()
 
-    return render_template("admin/relatorio.html", doacoes=doacoes, cidades=cidades)
+    return render_template(
+        "admin/relatorio.html", 
+        doacoes=doacoes, 
+        cidades=cidades,
+        pagina=pagina,
+        total_paginas=total_paginas,
+        total=total,
+        por_pagina=por_pagina,
+        registros_mostrados=registros_mostrados
+    )
 
 
 @main.route("/editar_status/<int:id>", methods=["POST"])
@@ -309,7 +350,7 @@ def editar_status(id):
     conn.commit()
     conn.close()
     
-    return redirect("/relatorio")
+    return redirect("/relatorio?sucesso=1")
 
 
 @main.route("/excluir_relatorio/<int:id>")

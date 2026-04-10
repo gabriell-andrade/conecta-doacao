@@ -71,20 +71,25 @@
                         <i class="bi bi-person"></i> Acessar Conta
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 250px;">
+                    <div class="dropdown-menu dropdown-menu-end p-3" style="min-width: 280px;">
 
-                        <div id="erroLogin" class="text-danger small mb-2 d-none">
-                            Preencha e-mail e senha.
+                        <div id="erroLoginNavbar" class="alert alert-danger small mb-2 d-none">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> 
+                            <span id="erroMsgNavbar">Preencha e-mail e senha.</span>
                         </div>
 
-                        <form method="POST" action="/login" id="formLogin">
-                            <input type="email" name="email"
+                        <form method="POST" action="/login" id="formLoginNavbar" novalidate>
+                            <input type="text" name="email"
                                 placeholder="E-mail"
-                                class="form-control mb-2">
+                                class="form-control mb-2"
+                                id="emailNavbar"
+                                autocomplete="off">
 
                             <input type="password" name="senha"
                                 placeholder="Senha"
-                                class="form-control mb-2">
+                                class="form-control mb-2"
+                                id="senhaNavbar"
+                                autocomplete="off">
 
                             <button type="submit" class="btn btn-success w-100 mb-2">
                                 Entrar
@@ -104,24 +109,3 @@
         </div>
     </div>
 </nav>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("formLogin");
-
-    if (form) {
-        form.addEventListener("submit", function (e) {
-            const email = form.querySelector("input[name='email']").value.trim();
-            const senha = form.querySelector("input[name='senha']").value.trim();
-            const erro = document.getElementById("erroLogin");
-
-            if (!email || !senha) {
-                e.preventDefault();
-                erro.classList.remove("d-none");
-            } else {
-                erro.classList.add("d-none");
-            }
-        });
-    }
-});
-</script>

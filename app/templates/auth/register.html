@@ -31,21 +31,48 @@
                             <p class="text-muted">Cadastre-se para começar a doar</p>
                         </div>
                         <div class="card-body p-4">
-                            <form method="POST">
-
+                            
+                            <!-- MENSAGEM DE SUCESSO -->
+                            {% if mensagem_sucesso %}
+                            <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                {{ mensagem_sucesso }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            
+                            <!-- Botão para ir ao login -->
+                            <div class="text-center mt-3">
+                                <a href="/login" class="btn btn-doador w-100">
+                                    <i class="bi bi-box-arrow-in-right"></i> Ir para o Login
+                                </a>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- MENSAGEM DE ERRO -->
+                            {% if erro %}
+                            <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                {{ erro }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- FORMULÁRIO DE CADASTRO (esconde quando tem sucesso) -->
+                            {% if not mensagem_sucesso %}
+                            <form method="POST" id="formRegister">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-semibold">
                                             Nome<span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="nome" placeholder="Seu nome" class="form-control" required>
+                                        <input type="text" name="nome" id="nomeRegister" placeholder="Seu nome" class="form-control" required>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-semibold">
                                             Sobrenome<span class="text-danger">*</span>
                                         </label>
-                                        <input type="text" name="sobrenome" placeholder="Seu sobrenome" class="form-control" required>
+                                        <input type="text" name="sobrenome" id="sobrenomeRegister" placeholder="Seu sobrenome" class="form-control" required>
                                     </div>
                                 </div>
 
@@ -53,32 +80,30 @@
                                     <label class="form-label fw-semibold">
                                         E-mail<span class="text-danger">*</span>
                                     </label>
-                                    <input type="email" name="email" placeholder="seuemail@exemplo.com" class="form-control" required>
+                                    <input type="email" name="email" id="emailRegister" placeholder="seuemail@exemplo.com" class="form-control" required autocomplete="off">
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">
                                         Senha<span class="text-danger">*</span>
                                     </label>
-                                    <input type="password" name="senha" placeholder="Crie uma senha" class="form-control" required>
+                                    <input type="password" name="senha" id="senhaRegister" placeholder="Crie uma senha" class="form-control" required>
                                 </div>
 
                                 <div class="d-grid gap-2 mt-3">
-
                                     <button type="submit" class="btn btn-doador py-2">
                                         <i class="bi bi-check-circle"></i> Cadastrar
                                     </button>
-
                                     <a href="/" class="btn btn-outline-secondary">
                                         <i class="bi bi-arrow-left"></i> Voltar
                                     </a>
-
                                 </div>
-
                             </form>
                             <div class="text-center mt-4">
                                 <p class="mb-0">Já tem conta? <a href="/login" class="text-decoration-none">Faça login</a></p>
                             </div>
+                            {% endif %}
+                            
                         </div>
                     </div>
                 </div>
@@ -89,5 +114,6 @@
     {% include "components/footer.html" %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/login-validation.js') }}"></script>
 </body>
 </html>

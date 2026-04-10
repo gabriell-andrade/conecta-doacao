@@ -32,22 +32,37 @@
                         </div>
                         <div class="card-body p-4">
                             
+                            <!-- MENSAGEM DE SUCESSO (vinda do cadastro) -->
+                            {% if request.args.get('cadastro_sucesso') %}
+                            <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                Cadastro realizado com sucesso! Faça login para continuar.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- MENSAGEM DE ERRO -->
                             {% if request.args.get('erro') %}
                             <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
                                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                 E-mail ou senha inválidos.
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
-                            {% endif %} 
+                            {% endif %}
                             
-                            <form method="POST">
+                            <div id="erroLoginPage" class="alert alert-danger small mb-3 d-none">
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i> 
+                                <span id="erroMsgPage"></span>
+                            </div>
+                            
+                            <form method="POST" id="formLoginPage">
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">E-mail</label>
-                                    <input type="email" name="email" placeholder="seuemail@exemplo.com" class="form-control" required>
+                                    <input type="email" name="email" id="emailPage" placeholder="seuemail@exemplo.com" class="form-control" required autocomplete="off">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">Senha</label>
-                                    <input type="password" name="senha" placeholder="Digite sua senha" class="form-control" required>
+                                    <input type="password" name="senha" id="senhaPage" placeholder="Digite sua senha" class="form-control" required autocomplete="off">
                                 </div>
                                 <button type="submit" class="btn btn-doador w-100 py-2">
                                     <i class="bi bi-box-arrow-in-right"></i> Entrar
@@ -66,5 +81,6 @@
     {% include "components/footer.html" %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/login-validation.js') }}"></script>
 </body>
 </html>
