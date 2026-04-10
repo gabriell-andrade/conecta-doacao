@@ -1,0 +1,272 @@
+.acao-botoes {
+    display: flex;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-pendente {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.status-coletado {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #28a745;
+}
+
+.card-doacao-mobile {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+.card-doacao-mobile:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.card-header-mobile {
+    background: linear-gradient(135deg, #0b3b3f 0%, #1b5e5a 100%);
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 3px solid #e67e22;
+}
+
+.card-numero {
+    background: rgba(255,255,255,0.2);
+    border-radius: 30px;
+    padding: 0.2rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    margin-right: 0.8rem;
+}
+
+.card-titulo-mobile {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.card-body-mobile {
+    padding: 1rem;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #0b3b3f;
+    min-width: 100px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-label i {
+    width: 20px;
+    color: #e67e22;
+}
+
+.info-value {
+    color: #2d2a24;
+    text-align: right;
+    word-break: break-word;
+    font-size: 0.85rem;
+    flex: 1;
+    margin-left: 0.5rem;
+}
+
+.acao-botoes-mobile {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.acao-botoes-mobile .btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 10px;
+}
+
+.acao-botoes-mobile .btn-outline-primary {
+    border-color: #0b3b3f;
+    color: #0b3b3f;
+}
+
+.acao-botoes-mobile .btn-outline-primary:hover {
+    background-color: #0b3b3f;
+    color: white;
+}
+
+.acao-botoes-mobile .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.acao-botoes-mobile .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.tabela-relatorio {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tabela-relatorio th {
+    background-color: #e9f0ef;
+    font-weight: 600;
+    padding: 12px;
+    font-size: 0.85rem;
+}
+
+.tabela-relatorio td {
+    padding: 12px;
+    vertical-align: middle;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .tabela-relatorio-wrapper {
+        display: none;
+    }
+    
+    .cards-relatorio-wrapper {
+        display: block;
+    }
+    
+    .table-responsive {
+        border-radius: 12px;
+    }
+    
+    .btn-sm {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+    }
+}
+@media (min-width: 769px) {
+    .tabela-relatorio-wrapper {
+        display: block;
+    }
+    
+    .cards-relatorio-wrapper {
+        display: none;
+    }
+    
+    .acao-botoes {
+        display: flex;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .info-label {
+        min-width: 85px;
+        font-size: 0.75rem;
+    }
+    
+    .info-value {
+        font-size: 0.75rem;
+    }
+    
+    .card-header-mobile {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .card-body-mobile {
+        padding: 0.8rem;
+    }
+    
+    .acao-botoes-mobile {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .card-numero {
+        font-size: 0.7rem;
+    }
+    
+    .card-titulo-mobile {
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+    .tabela-relatorio th,
+    .tabela-relatorio td {
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+    
+    .btn-sm {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.7rem;
+    }
+}
+
+.pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.page-link {
+    color: #0b3b3f;
+    border-radius: 8px;
+    margin: 0 2px;
+}
+
+.page-link:hover {
+    background-color: #e67e22;
+    border-color: #e67e22;
+    color: white;
+}
+
+.page-item.active .page-link {
+    background-color: #0b3b3f;
+    border-color: #0b3b3f;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+}

@@ -1,0 +1,95 @@
+<!-- components/paginacao.html -->
+{% if total_paginas > 1 %}
+<div class="d-flex justify-content-center mt-4">
+    <nav aria-label="Navegação de páginas">
+        <ul class="pagination">
+            <!-- Primeira página -->
+            {% if pagina > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for(rota, pagina=1, **filtros) }}">
+                    <i class="bi bi-chevron-double-left"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-double-left"></i></span>
+            </li>
+            {% endif %}
+
+            <!-- Anterior -->
+            {% if pagina > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for(rota, pagina=pagina-1, **filtros) }}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+            </li>
+            {% endif %}
+
+            <!-- Números das páginas -->
+            {% set start = [1, pagina-2]|max %}
+            {% set end = [total_paginas, pagina+2]|min %}
+            
+            {% if start > 1 %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+            
+            {% for p in range(start, end + 1) %}
+                {% if p == pagina %}
+                <li class="page-item active">
+                    <span class="page-link">{{ p }}</span>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for(rota, pagina=p, **filtros) }}">
+                        {{ p }}
+                    </a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if end < total_paginas %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+
+            <!-- Próxima -->
+            {% if pagina < total_paginas %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for(rota, pagina=pagina+1, **filtros) }}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+            </li>
+            {% endif %}
+
+            <!-- Última página -->
+            {% if pagina < total_paginas %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for(rota, pagina=total_paginas, **filtros) }}">
+                    <i class="bi bi-chevron-double-right"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link"><i class="bi bi-chevron-double-right"></i></span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!-- Informação de registros -->
+<div class="text-center text-muted small mt-3">
+    Mostrando {{ registros_mostrados }} de {{ total }} registros
+</div>
+{% endif %}
